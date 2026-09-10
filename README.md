@@ -1,60 +1,94 @@
-Libft - My First C Library
+*This project has been created as part of the 42 curriculum by adaza-ru.*
 
-Hey there! 👋 This is my libft project, which is my very first attempt at building a C library from scratch and the first project in the 42 common core curriculum. As part of my learning journey at 42 Málaga, I'm creating my own version of standard C functions and some extra utilities that'll be useful throughout my programming journey.
+<div align="center">
 
+# libft — A Custom C Standard Library
 
-🧠 Learning Notes
+**A from-scratch reimplementation of core C standard library functions, plus string, memory, and linked-list utilities — organized by category and built as a static library.**
 
-This project was my first deep dive into:
+![C](https://img.shields.io/badge/language-C-00599C?logo=c&logoColor=white)
+![Make](https://img.shields.io/badge/build-Make-red)
+![Static Library](https://img.shields.io/badge/output-static_library-blue)
 
-    Memory allocation and management (malloc, free)
+</div>
 
-    Working with strings and character arrays
+---
 
-    Working with linked lists
+## Table of Contents
 
-    Creating a proper Makefile
+- [Overview](#overview)
+- [Project Structure](#project-structure)
+- [Function Reference](#function-reference)
+- [Getting Started](#getting-started)
+- [Usage](#usage)
+- [Notes](#notes)
 
-    Understanding how basic C functions work under the hood
+---
 
+## Overview
 
-📚 What's Inside?
+libft is a personal reimplementation of core C standard library functions, prefixed `ft_` and matching the behavior of their libc counterparts, extended with a set of additional string, conversion, and output utilities, plus a small linked-list toolkit.
 
-This library has two main parts:
+It was the first project of 42's common core curriculum and is reused as the foundation for most of the C projects that follow it — every function here gets linked into later, larger projects rather than reimplemented from scratch each time.
 
-Part 1: Standard C Functions. I've recreated basic functions from the C standard library (but with ft_ prefix instead):
+The library compiles to a single static archive, `libft.a`, and is organized by function category rather than as one flat folder of source files.
 
-    Character checks: ft_isalpha, ft_isdigit, ft_isalnum, etc.
+## Project Structure
 
-    String operations: ft_strlen, ft_strchr, ft_strdup, etc.
+```
+libft/
+├── Makefile
+├── include/
+│   └── libft.h
+└── src/
+    ├── ctype/      # character classification & case conversion
+    ├── memory/     # memory operations
+    ├── string/     # string manipulation
+    ├── convert/    # number <-> string conversion
+    ├── output/     # fd-based output functions
+    └── list/       # singly linked list utilities
+```
 
-    Memory operations: ft_memset, ft_memcpy, ft_memmove, etc.
+## Function Reference
 
-    Conversions: ft_atoi, ft_toupper, ft_tolower
+| Category | Folder | Functions |
+|---|---|---|
+| Character handling | `ctype/` | `ft_isalpha`, `ft_isdigit`, `ft_isalnum`, `ft_isascii`, `ft_isprint`, `ft_toupper`, `ft_tolower` |
+| Memory | `memory/` | `ft_memset`, `ft_bzero`, `ft_memcpy`, `ft_memmove`, `ft_memchr`, `ft_memcmp`, `ft_calloc` |
+| Strings | `string/` | `ft_strlen`, `ft_strlcpy`, `ft_strlcat`, `ft_strchr`, `ft_strrchr`, `ft_strncmp`, `ft_strnstr`, `ft_strdup`, `ft_substr`, `ft_strjoin`, `ft_strtrim`, `ft_split`, `ft_strmapi`, `ft_striteri` |
+| Conversion | `convert/` | `ft_atoi`, `ft_itoa` |
+| Output | `output/` | `ft_putchar_fd`, `ft_putstr_fd`, `ft_putendl_fd`, `ft_putnbr_fd` |
+| Linked lists | `list/` | `ft_lstnew`, `ft_lstadd_front`, `ft_lstadd_back`, `ft_lstsize`, `ft_lstlast`, `ft_lstdelone`, `ft_lstclear`, `ft_lstiter`, `ft_lstmap` |
 
-Part 2: Additional Functions. Some extra useful utilities:
+## Getting Started
 
-    ft_substr - Extract parts of strings
+### Requirements
 
-    ft_strjoin - Combine strings
+- A C compiler
+- `make`
 
-    ft_split - Split strings (this one was tricky!)
+### Build
 
-    ft_itoa - Convert numbers to strings
+```bash
+git clone https://github.com/adaza-ru/libft.git
+cd libft
+make
+```
 
-    ft_putchar_fd, ft_putstr_fd, etc. - Output functions with file descriptors
+This produces `libft.a` at the root of the repository.
 
-Bonus: Linked Lists! I added functions to work with linked lists:
+## Usage
 
-    Create, add, and remove nodes
+Link the static library and its header into another project:
 
-    Iterate through lists
+```bash
+cc your_program.c -I/path/to/libft/include -L/path/to/libft -lft -o your_program
+```
 
-    Map functions to list elements
+```c
+#include "libft.h"
+```
 
+## Notes
 
-🚀 Future Improvements
-
-I plan to keep adding to this library as I learn more throughout my 42 journey. It's like my personal toolkit that grows with me!
-
-This is a learning project from 42 School. The goal isn't just to have a working library, but to understand how these fundamental functions actually work. If you find any bugs or have suggestions, feel free to let me know! I'm always learning. 😊
+Originally built as the first project of the 42 curriculum, at 42 Málaga — the starting point for learning C memory management, string handling, and linked lists, and reused throughout the rest of the core curriculum.

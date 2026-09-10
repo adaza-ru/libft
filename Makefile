@@ -6,59 +6,89 @@
 #    By: adaza-ru <adaza-ru@student.42malaga.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/28 19:44:38 by adaza-ru          #+#    #+#              #
-#    Updated: 2025/11/28 19:44:38 by adaza-ru         ###   ########.fr        #
+#    Updated: 2026/09/11 01:18:51 by adaza-ru         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = libft.a
+NAME		= libft.a
 
-CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CC			= cc
+CFLAGS		= -Wall -Wextra -Werror
+AR			= ar rcs
 
-SRC = ft_isalpha.c ft_isdigit.c ft_isalnum.c \
-	ft_isascii.c ft_isprint.c ft_strlen.c \
-	ft_memset.c ft_bzero.c ft_memcpy.c \
-	ft_memmove.c ft_strlcpy.c ft_strlcat.c \
-	ft_toupper.c ft_tolower.c ft_strchr.c \
-	ft_strrchr.c ft_strncmp.c ft_memchr.c \
-	ft_memcmp.c ft_strnstr.c ft_atoi.c \
-	ft_calloc.c ft_strdup.c ft_substr.c \
-	ft_strjoin.c ft_strtrim.c ft_split.c\
-	ft_itoa.c ft_strmapi.c ft_striteri.c \
-	ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c\
-	ft_putnbr_fd.c
+INCLUDE_DIR	= include
+SRC_DIR		= src
+OBJ_DIR		= obj
 
-BONUS_SRC = ft_lstnew_bonus.c ft_lstadd_front_bonus.c \
-	ft_lstsize_bonus.c ft_lstlast_bonus.c \
-	ft_lstadd_back_bonus.c ft_lstdelone_bonus.c \
-	ft_lstclear_bonus.c ft_lstiter_bonus.c \
-	ft_lstmap_bonus.c
+CPPFLAGS	= -I$(INCLUDE_DIR)
 
-OBJ = $(SRC:.c=.o)
-BONUS_OBJ = $(BONUS_SRC:.c=.o)
+CTYPE_SRC	= $(SRC_DIR)/ctype/ft_isalpha.c \
+		  $(SRC_DIR)/ctype/ft_isdigit.c \
+		  $(SRC_DIR)/ctype/ft_isalnum.c \
+		  $(SRC_DIR)/ctype/ft_isascii.c \
+		  $(SRC_DIR)/ctype/ft_isprint.c \
+		  $(SRC_DIR)/ctype/ft_toupper.c \
+		  $(SRC_DIR)/ctype/ft_tolower.c
 
-.PHONY: all clean fclean re bonus
+MEMORY_SRC	= $(SRC_DIR)/memory/ft_memset.c \
+		  $(SRC_DIR)/memory/ft_bzero.c \
+		  $(SRC_DIR)/memory/ft_memcpy.c \
+		  $(SRC_DIR)/memory/ft_memmove.c \
+		  $(SRC_DIR)/memory/ft_memchr.c \
+		  $(SRC_DIR)/memory/ft_memcmp.c \
+		  $(SRC_DIR)/memory/ft_calloc.c
+
+STRING_SRC	= $(SRC_DIR)/string/ft_strlen.c \
+		  $(SRC_DIR)/string/ft_strlcpy.c \
+		  $(SRC_DIR)/string/ft_strlcat.c \
+		  $(SRC_DIR)/string/ft_strchr.c \
+		  $(SRC_DIR)/string/ft_strrchr.c \
+		  $(SRC_DIR)/string/ft_strncmp.c \
+		  $(SRC_DIR)/string/ft_strnstr.c \
+		  $(SRC_DIR)/string/ft_strdup.c \
+		  $(SRC_DIR)/string/ft_substr.c \
+		  $(SRC_DIR)/string/ft_strjoin.c \
+		  $(SRC_DIR)/string/ft_strtrim.c \
+		  $(SRC_DIR)/string/ft_split.c \
+		  $(SRC_DIR)/string/ft_strmapi.c \
+		  $(SRC_DIR)/string/ft_striteri.c
+
+CONVERT_SRC	= $(SRC_DIR)/convert/ft_atoi.c \
+		  $(SRC_DIR)/convert/ft_itoa.c
+
+OUTPUT_SRC	= $(SRC_DIR)/output/ft_putchar_fd.c \
+		  $(SRC_DIR)/output/ft_putstr_fd.c \
+		  $(SRC_DIR)/output/ft_putendl_fd.c \
+		  $(SRC_DIR)/output/ft_putnbr_fd.c
+
+LIST_SRC	= $(SRC_DIR)/list/ft_lstnew.c \
+		  $(SRC_DIR)/list/ft_lstadd_front.c \
+		  $(SRC_DIR)/list/ft_lstadd_back.c \
+		  $(SRC_DIR)/list/ft_lstsize.c \
+		  $(SRC_DIR)/list/ft_lstlast.c \
+		  $(SRC_DIR)/list/ft_lstdelone.c \
+		  $(SRC_DIR)/list/ft_lstclear.c \
+		  $(SRC_DIR)/list/ft_lstiter.c \
+		  $(SRC_DIR)/list/ft_lstmap.c
+
+SRCS		= $(CTYPE_SRC) $(MEMORY_SRC) $(STRING_SRC) $(CONVERT_SRC) $(OUTPUT_SRC) $(LIST_SRC)
+OBJS		= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))
+
+.PHONY: all clean fclean re
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
-	ar rcs $(NAME) $(OBJ)
+$(NAME): $(OBJS)
+	$(AR) $(NAME) $(OBJS)
 
-bonus: $(OBJ) $(BONUS_OBJ)
-	ar rcs $(NAME) $(OBJ) $(BONUS_OBJ)
-
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
-
-%_bonus.o: %_bonus.c
-	$(CC) $(CFLAGS) -c $< -o $@
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJ) $(BONUS_OBJ)
+	rm -rf $(OBJ_DIR)
 
 fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
-
-rebonus: fclean bonus
